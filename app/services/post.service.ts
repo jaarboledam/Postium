@@ -1,5 +1,5 @@
 import { Inject, Injectable } from "@angular/core";
-import { Http, Response } from "@angular/http";
+import {Http, Response, URLSearchParams, RequestOptions} from "@angular/http";
 import { Observable } from "rxjs/Observable";
 import "rxjs/add/operator/map";
 
@@ -29,9 +29,16 @@ export class PostService {
          |   - Filtro por fecha de publicación: publicationDate_lte=x (siendo x la fecha actual)        |
          |   - Ordenación: _sort=publicationDate&_order=DESC                                            |
          |----------------------------------------------------------------------------------------------*/
+        let parameters: URLSearchParams = new URLSearchParams();
+        parameters.set('publicationDate_lte', Date.now().toString());
+        parameters.set('_sort', 'publicationDate');
+        parameters.set('_order', 'DESC');
+
+        let options: RequestOptions = new RequestOptions();
+        options.search = parameters;
 
         return this._http
-                   .get(`${this._backendUri}/posts`)
+                   .get(`${this._backendUri}/posts`, options)
                    .map((response: Response) => Post.fromJsonToList(response.json()));
     }
 
