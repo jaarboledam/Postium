@@ -9,9 +9,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var router_1 = require("@angular/router");
 var PostsListComponent = (function () {
-    function PostsListComponent() {
+    /*------------------------------------------------------------------------------------------------------------------|
+     | ~~~ Red Path ~~~                                                                                                 |
+     |------------------------------------------------------------------------------------------------------------------|
+     | Maneja el evento del componente PostPreviewComponent que indica la selección del autor de un post y navega a la  |
+     | dirección correspondiente. Recuerda que para hacer esto necesitas inyectar como dependencia el Router de la app. |
+     | La ruta a navegar es '/posts/users', pasando como parámetro el identificador del autor.                          |
+     |------------------------------------------------------------------------------------------------------------------*/
+    /*-----------------------------------------------------------------------------------------------------------------|
+     | ~~~ Green Path ~~~                                                                                              |
+     |-----------------------------------------------------------------------------------------------------------------|
+     | Maneja el evento del componente PostPreviewComponent que indica la selección de un post y navega a la dirección |
+     | correspondiente. Recuerda que para hacer esto necesitas inyectar como dependencia el Router de la app.  La ruta |
+     | a navegar es '/posts', pasando como parámetro el identificador del post.                                        |
+     |-----------------------------------------------------------------------------------------------------------------*/
+    function PostsListComponent(_router) {
+        this._router = _router;
     }
+    PostsListComponent.prototype.viewPost = function (post) {
+        this._router.navigate(['/posts', post.id]);
+    };
     return PostsListComponent;
 }());
 __decorate([
@@ -23,7 +42,7 @@ PostsListComponent = __decorate([
         selector: "posts-list",
         templateUrl: "./app/components/posts-list/posts-list.component.html"
     }),
-    __metadata("design:paramtypes", [])
+    __metadata("design:paramtypes", [router_1.Router])
 ], PostsListComponent);
 exports.PostsListComponent = PostsListComponent;
 //# sourceMappingURL=posts-list.component.js.map
