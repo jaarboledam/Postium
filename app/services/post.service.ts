@@ -5,6 +5,7 @@ import "rxjs/add/operator/map";
 
 import { BackendUri } from "./settings.service";
 import { Post } from "../models/post";
+import {Category} from "../models/category";
 
 @Injectable()
 export class PostService {
@@ -96,10 +97,29 @@ export class PostService {
          |   - Filtro por fecha de publicación: publicationDate_lte=x (siendo x la fecha actual)            |
          |   - Ordenación: _sort=publicationDate&_order=DESC                                                |
          |--------------------------------------------------------------------------------------------------*/
+        let parameters: URLSearchParams = new URLSearchParams();
+        parameters.set('publicationDate_lte', Date.now().toString());
+        parameters.set('_sort', 'publicationDate');
+        parameters.set('_order', 'DESC');
+
+        let options: RequestOptions = new RequestOptions();
+        options.search = parameters;
 
         return this._http
-                   .get(`${this._backendUri}/posts`)
-                   .map((response: Response) => Post.fromJsonToList(response.json()));
+                   .get(`${this._backendUri}/posts`, options)
+                   .map((response: Response) => {
+                       let posts_list: Post[] = Post.fromJsonToList(response.json());
+                       let filtered_posts_list: Post[] = [];
+
+                       posts_list.forEach((post: Post) => {
+                           post.categories.forEach((category: Category) => {
+                               if (category.id.toString() == id)
+                                   filtered_posts_list.push(post);
+                           })
+                       })
+
+                       return filtered_posts_list;
+                   });
     }
 
     getPostDetails(id: number): Observable<Post> {

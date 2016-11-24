@@ -95,9 +95,25 @@ var PostService = (function () {
          |   - Filtro por fecha de publicación: publicationDate_lte=x (siendo x la fecha actual)            |
          |   - Ordenación: _sort=publicationDate&_order=DESC                                                |
          |--------------------------------------------------------------------------------------------------*/
+        var parameters = new http_1.URLSearchParams();
+        parameters.set('publicationDate_lte', Date.now().toString());
+        parameters.set('_sort', 'publicationDate');
+        parameters.set('_order', 'DESC');
+        var options = new http_1.RequestOptions();
+        options.search = parameters;
         return this._http
-            .get(this._backendUri + "/posts")
-            .map(function (response) { return post_1.Post.fromJsonToList(response.json()); });
+            .get(this._backendUri + "/posts", options)
+            .map(function (response) {
+            var posts_list = post_1.Post.fromJsonToList(response.json());
+            var filtered_posts_list = [];
+            posts_list.forEach(function (post) {
+                post.categories.forEach(function (category) {
+                    if (category.id.toString() == id)
+                        filtered_posts_list.push(post);
+                });
+            });
+            return filtered_posts_list;
+        });
     };
     PostService.prototype.getPostDetails = function (id) {
         return this._http

@@ -33,6 +33,16 @@ var PostDetailsComponent = (function () {
     PostDetailsComponent.prototype.viewAuthorPosts = function (author) {
         this._router.navigate(['/posts/users', author.id]);
     };
+    /*--------------------------------------------------------------------------------------------------------------------|
+     | ~~~ Yellow Path ~~~                                                                                                |
+     |--------------------------------------------------------------------------------------------------------------------|
+     | Añade un manejador que navegue a la dirección correspondiente a los posts de la categoría indicada. Recuerda que   |
+     | para hacer esto necesitas inyectar como dependencia el Router de la app. La ruta a navegar es '/posts/categories', |
+     | pasando como parámetro el identificador de la categoría.                                                           |
+     |--------------------------------------------------------------------------------------------------------------------*/
+    PostDetailsComponent.prototype.viewCategoryPosts = function (category) {
+        this._router.navigate(['/posts/categories', category.id]);
+    };
     return PostDetailsComponent;
 }());
 PostDetailsComponent = __decorate([

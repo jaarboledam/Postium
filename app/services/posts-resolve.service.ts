@@ -34,6 +34,9 @@ export class PostsResolve implements Resolve<Post[]> {
             case 'UserPostsComponent':
                 posts_list = this._postService.getUserPosts(route.params.userId);
                 break;
+            case 'CategoryPostsComponent':
+                posts_list = this._postService.getCategoryPosts(route.params.categoryId);
+                break;
             default:
                 posts_list = this._postService.getPosts();
                 break;

@@ -11,13 +11,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var CategoryBoxComponent = (function () {
     function CategoryBoxComponent() {
+        this.categoryClick = new core_1.EventEmitter();
     }
+    /*-------------------------------------------------------------------------------------------------------------------|
+     | ~~~ Yellow Path ~~~                                                                                               |
+     |-------------------------------------------------------------------------------------------------------------------|
+     | Expón un atributo de salida con el decorador correspondiente. El tipo de dicho atributo debe permitir la emisión  |
+     | de eventos; la idea es enviar al componente padre la categoría sobre el cuál se ha hecho clic. Y puesto que dicho |
+     | clic se realiza en el template de este componente, necesitas, además, un manejador para el mismo.                 |
+     |-------------------------------------------------------------------------------------------------------------------*/
+    CategoryBoxComponent.prototype.selectCategory = function (selected) {
+        this.categoryClick.emit(selected);
+    };
     return CategoryBoxComponent;
 }());
 __decorate([
     core_1.Input(),
     __metadata("design:type", Array)
 ], CategoryBoxComponent.prototype, "categories", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], CategoryBoxComponent.prototype, "categoryClick", void 0);
 CategoryBoxComponent = __decorate([
     core_1.Component({
         selector: "category-box",
