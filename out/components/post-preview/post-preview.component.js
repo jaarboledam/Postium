@@ -12,24 +12,28 @@ var core_1 = require("@angular/core");
 var post_1 = require("../../models/post");
 var PostPreviewComponent = (function () {
     function PostPreviewComponent() {
-        /*------------------------------------------------------------------------------------------------------------------|
-         | ~~~ Red Path ~~~                                                                                                 |
-         |------------------------------------------------------------------------------------------------------------------|
-         | Expón un atributo de salida con el decorador correspondiente. El tipo de dicho atributo debe permitir la emisión |
-         | de eventos; la idea es enviar al componente padre el usuario sobre el cuál se ha hecho clic. Y puesto que dicho  |
-         | clic se realiza en el template de este componente, necesitas, además, un manejador para el mismo.                |
-         |------------------------------------------------------------------------------------------------------------------*/
-        /*------------------------------------------------------------------------------------------------------------------|
-         | ~~~ Green Path ~~~                                                                                               |
-         |------------------------------------------------------------------------------------------------------------------|
-         | Expón un atributo de salida con el decorador correspondiente. El tipo de dicho atributo debe permitir la emisión |
-         | de eventos; la idea es enviar al componente padre el post sobre el cuál se ha hecho clic. Y puesto que dicho     |
-         | clic se realiza en el template de este componente, necesitas, además, un manejador para el mismo.                |
-         |------------------------------------------------------------------------------------------------------------------*/
         this.postClick = new core_1.EventEmitter();
+        this.authorClick = new core_1.EventEmitter();
     }
+    /*------------------------------------------------------------------------------------------------------------------|
+     | ~~~ Red Path ~~~                                                                                                 |
+     |------------------------------------------------------------------------------------------------------------------|
+     | Expón un atributo de salida con el decorador correspondiente. El tipo de dicho atributo debe permitir la emisión |
+     | de eventos; la idea es enviar al componente padre el usuario sobre el cuál se ha hecho clic. Y puesto que dicho  |
+     | clic se realiza en el template de este componente, necesitas, además, un manejador para el mismo.                |
+     |------------------------------------------------------------------------------------------------------------------*/
+    /*------------------------------------------------------------------------------------------------------------------|
+     | ~~~ Green Path ~~~                                                                                               |
+     |------------------------------------------------------------------------------------------------------------------|
+     | Expón un atributo de salida con el decorador correspondiente. El tipo de dicho atributo debe permitir la emisión |
+     | de eventos; la idea es enviar al componente padre el post sobre el cuál se ha hecho clic. Y puesto que dicho     |
+     | clic se realiza en el template de este componente, necesitas, además, un manejador para el mismo.                |
+     |------------------------------------------------------------------------------------------------------------------*/
     PostPreviewComponent.prototype.selectPost = function () {
         this.postClick.emit(this.post);
+    };
+    PostPreviewComponent.prototype.selectAuthor = function () {
+        this.authorClick.emit(this.post.author);
     };
     PostPreviewComponent.prototype.plainTextToHtml = function (text) {
         return "<p>" + text.replace(/\n/gi, "</p><p>") + "</p>";
@@ -44,6 +48,10 @@ __decorate([
     core_1.Output(),
     __metadata("design:type", core_1.EventEmitter)
 ], PostPreviewComponent.prototype, "postClick", void 0);
+__decorate([
+    core_1.Output(),
+    __metadata("design:type", core_1.EventEmitter)
+], PostPreviewComponent.prototype, "authorClick", void 0);
 PostPreviewComponent = __decorate([
     core_1.Component({
         selector: "post-preview",

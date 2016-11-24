@@ -9,12 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require("@angular/core");
+var Observable_1 = require("rxjs/Observable");
 var post_service_1 = require("./post.service");
 var PostsResolve = (function () {
     function PostsResolve(_postService) {
         this._postService = _postService;
     }
     PostsResolve.prototype.resolve = function (route) {
+        var posts_list = new Observable_1.Observable();
         /*-----------------------------------------------------------------------------------------|
          | ~~~ Red Path ~~~                                                                        |
          |-----------------------------------------------------------------------------------------|
@@ -29,7 +31,15 @@ var PostsResolve = (function () {
          | a una categoría, llame a la función 'getCategoryPosts()' del servicio PostService.      |
          | Recuerda mirar en los parámetros de la ruta, a ver qué encuentras.                      |
          |-----------------------------------------------------------------------------------------*/
-        return this._postService.getPosts();
+        switch (route.routeConfig.component.name) {
+            case 'UserPostsComponent':
+                posts_list = this._postService.getUserPosts(route.params.userId);
+                break;
+            default:
+                posts_list = this._postService.getPosts();
+                break;
+        }
+        return posts_list;
     };
     return PostsResolve;
 }());

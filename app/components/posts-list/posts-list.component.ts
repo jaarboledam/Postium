@@ -2,6 +2,7 @@ import { Component, Input } from "@angular/core";
 
 import { Post } from "../../models/post";
 import {Router} from "@angular/router";
+import {User} from "../../models/user";
 
 @Component({
     selector: "posts-list",
@@ -31,5 +32,9 @@ export class PostsListComponent {
 
     viewPost(post: Post): void {
         this._router.navigate(['/posts', post.id]);
+    }
+
+    viewAuthorPosts(author: User): void {
+        this._router.navigate(['/posts/users', author.id]);
     }
 }

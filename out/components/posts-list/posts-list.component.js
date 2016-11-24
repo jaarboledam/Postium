@@ -31,6 +31,9 @@ var PostsListComponent = (function () {
     PostsListComponent.prototype.viewPost = function (post) {
         this._router.navigate(['/posts', post.id]);
     };
+    PostsListComponent.prototype.viewAuthorPosts = function (author) {
+        this._router.navigate(['/posts/users', author.id]);
+    };
     return PostsListComponent;
 }());
 __decorate([

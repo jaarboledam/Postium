@@ -23,7 +23,7 @@ var PostService = (function () {
     }
     PostService.prototype.getPosts = function () {
         /*----------------------------------------------------------------------------------------------|
-         | ~~~ Red Path ~~~                                                                             |
+         | ~~~ Pink Path ~~~                                                                             |
          |----------------------------------------------------------------------------------------------|
          | Pide al servidor que te retorne los posts ordenados de más reciente a menos, teniendo en     |
          | cuenta su fecha de publicación. Filtra también aquellos que aún no están publicados, pues no |
@@ -63,8 +63,15 @@ var PostService = (function () {
          |   - Filtro por fecha de publicación: publicationDate_lte=x (siendo x la fecha actual)        |
          |   - Ordenación: _sort=publicationDate&_order=DESC                                            |
          |----------------------------------------------------------------------------------------------*/
+        var parameters = new http_1.URLSearchParams();
+        parameters.set('author.id', id.toString());
+        parameters.set('publicationDate_lte', Date.now().toString());
+        parameters.set('_sort', 'publicationDate');
+        parameters.set('_order', 'DESC');
+        var options = new http_1.RequestOptions();
+        options.search = parameters;
         return this._http
-            .get(this._backendUri + "/posts")
+            .get(this._backendUri + "/posts", options)
             .map(function (response) { return post_1.Post.fromJsonToList(response.json()); });
     };
     PostService.prototype.getCategoryPosts = function (id) {

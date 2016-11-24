@@ -1,6 +1,7 @@
 import {Component, Input, Output, EventEmitter} from "@angular/core";
 
 import { Post } from "../../models/post";
+import {User} from "../../models/user";
 
 @Component({
     selector: "post-preview",
@@ -10,7 +11,8 @@ import { Post } from "../../models/post";
 export class PostPreviewComponent {
 
     @Input() post: Post;
-    
+    @Output() postClick: EventEmitter<Post> = new EventEmitter();
+    @Output() authorClick: EventEmitter<User> = new EventEmitter();
     /*------------------------------------------------------------------------------------------------------------------|
      | ~~~ Red Path ~~~                                                                                                 |
      |------------------------------------------------------------------------------------------------------------------|
@@ -18,7 +20,6 @@ export class PostPreviewComponent {
      | de eventos; la idea es enviar al componente padre el usuario sobre el cuál se ha hecho clic. Y puesto que dicho  |
      | clic se realiza en el template de este componente, necesitas, además, un manejador para el mismo.                |
      |------------------------------------------------------------------------------------------------------------------*/
-    
     /*------------------------------------------------------------------------------------------------------------------|
      | ~~~ Green Path ~~~                                                                                               |
      |------------------------------------------------------------------------------------------------------------------|
@@ -26,10 +27,13 @@ export class PostPreviewComponent {
      | de eventos; la idea es enviar al componente padre el post sobre el cuál se ha hecho clic. Y puesto que dicho     |
      | clic se realiza en el template de este componente, necesitas, además, un manejador para el mismo.                |
      |------------------------------------------------------------------------------------------------------------------*/
-    @Output() postClick: EventEmitter<Post> = new EventEmitter();
 
     selectPost(): void {
         this.postClick.emit(this.post);
+    }
+
+    selectAuthor(): void {
+        this.authorClick.emit(this.post.author);
     }
 
     plainTextToHtml(text: string): string {

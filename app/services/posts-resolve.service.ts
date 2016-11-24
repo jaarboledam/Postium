@@ -12,6 +12,8 @@ export class PostsResolve implements Resolve<Post[]> {
 
     resolve(route: ActivatedRouteSnapshot): Observable<Post[]> {
 
+        let posts_list: Observable<Post[]> = new Observable();
+
         /*-----------------------------------------------------------------------------------------|
          | ~~~ Red Path ~~~                                                                        |
          |-----------------------------------------------------------------------------------------|
@@ -28,6 +30,15 @@ export class PostsResolve implements Resolve<Post[]> {
          | Recuerda mirar en los parámetros de la ruta, a ver qué encuentras.                      |
          |-----------------------------------------------------------------------------------------*/
 
-        return this._postService.getPosts();
+        switch (route.routeConfig.component.name){
+            case 'UserPostsComponent':
+                posts_list = this._postService.getUserPosts(route.params.userId);
+                break;
+            default:
+                posts_list = this._postService.getPosts();
+                break;
+        }
+
+        return posts_list;
     }
 }
