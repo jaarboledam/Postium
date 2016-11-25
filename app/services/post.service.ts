@@ -113,7 +113,7 @@ export class PostService {
 
                        posts_list.forEach((post: Post) => {
                            post.categories.forEach((category: Category) => {
-                               if (category.id.toString() == id)
+                               if (category.id == id)
                                    filtered_posts_list.push(post);
                            })
                        })

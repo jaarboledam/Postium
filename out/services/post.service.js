@@ -108,7 +108,7 @@ var PostService = (function () {
             var filtered_posts_list = [];
             posts_list.forEach(function (post) {
                 post.categories.forEach(function (category) {
-                    if (category.id.toString() == id)
+                    if (category.id == id)
                         filtered_posts_list.push(post);
                 });
             });
